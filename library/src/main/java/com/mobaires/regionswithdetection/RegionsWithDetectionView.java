@@ -20,15 +20,15 @@ import android.view.ViewGroup;
 
 public abstract class RegionsWithDetectionView<S> extends ViewGroup {
 
-	private static final float MIN_DP = 48; // Another comment sorry!
+	private static final float MIN_DP = 48; // This is a new comment that is better than the others
 	private static float factorEscalaLookupBitmap = 0.1f;
 	private static float factorForScreen = 1.0f; // This thing enlarges or reduces the bitmap!
 	private Bitmap lookupBitmap = Bitmap.createBitmap(300, 300,
 			Bitmap.Config.ALPHA_8);
 	private float maxWidth = 0.0f;
 	private float maxHeight = 0.0f;
-	private Collection<PartWithStatus<S>> partesArray = new ArrayList<PartWithStatus<S>>();
-	private Map<Integer, PartWithStatus<S>> partesPorColor = new HashMap<Integer, PartWithStatus<S>>();
+	private Collection<PartWithStatus<S>> partsArray = new ArrayList<PartWithStatus<S>>();
+	private Map<Integer, PartWithStatus<S>> partsByColor = new HashMap<Integer, PartWithStatus<S>>();
 
 	private Bitmap foregroundBitmap = null;
 
@@ -77,8 +77,8 @@ public abstract class RegionsWithDetectionView<S> extends ViewGroup {
 					(int) ((factorEscalaLookupBitmap / factorForScreen) * y));
 
 			if ((pathIndex != Color.BLACK)
-					&& (partesPorColor.containsKey(pathIndex))) {
-				PartWithStatus<S> partWithStatus = partesPorColor
+					&& (partsByColor.containsKey(pathIndex))) {
+				PartWithStatus<S> partWithStatus = partsByColor
 						.get(pathIndex);
 				int pos = getAvailableStatus().indexOf(
 						partWithStatus.getStatus());
@@ -112,7 +112,7 @@ public abstract class RegionsWithDetectionView<S> extends ViewGroup {
 
 		super.onDraw(canvas);
 
-		Iterator<PartWithStatus<S>> iterator = partesArray.iterator();
+		Iterator<PartWithStatus<S>> iterator = partsArray.iterator();
 
 		while (iterator.hasNext()) {
 			PartWithStatus<S> partWithStatus = iterator.next();
@@ -253,8 +253,8 @@ public abstract class RegionsWithDetectionView<S> extends ViewGroup {
 				partWithStatus.addPath(path);
 			}
 
-			partesArray.add(partWithStatus);
-			partesPorColor.put(color, partWithStatus);
+			partsArray.add(partWithStatus);
+			partsByColor.put(color, partWithStatus);
 			color++;
 		}
 
